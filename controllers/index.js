@@ -44,12 +44,17 @@ router.post('/login', function(req, res) {
 });
 
 router.get('/home', function(req, res) {
-    	if(req.session.type == 'student'){
-    		res.redirect("/student/home");
-    	}
-    	else if(req.session.type == 'academicstaff'){
-    		res.redirect("/academicstaff/home");
-    	}
+    if(req.session.type == 'student'){
+    	res.redirect("/student/home");
+    }
+    else if(req.session.type == 'academicstaff'){
+    	res.redirect("/academicstaff/home");
+    }
+});
+
+router.get('/logout', function(req, res) {
+    req.session.destroy();
+    res.redirect('/');
 });
 
 module.exports = router;

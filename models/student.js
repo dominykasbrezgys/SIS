@@ -14,7 +14,6 @@ exports.getByUsername = function(username, callback) {
 	sql = "SELECT * FROM Student WHERE username= '" +username+"'";
 	con.query(sql, function(err, result) {
 		if (err) throw err;
-		console.log(result[0]);
 		callback(result[0]);
     });
 };
@@ -24,7 +23,6 @@ exports.getPersonalTutor = function(id, callback) {
 	sql = "SELECT * FROM AcademicStaff WHERE id= " +id;
 	con.query(sql, function(err, result) {
 		if (err) throw err;
-		console.log(result[0]);
 		callback(result[0]);
     });
 };
