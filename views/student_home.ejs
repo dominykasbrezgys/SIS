@@ -1,7 +1,20 @@
 <% include partials/student_header %>
 <div class="container">
-	<h1>Logged in as <%= student['Username']%></h1>
-	<p><%= student['FirstName']%></p>
-	<p><%= student['LastName']%></p>
+	<h1>Home</h1>
+	<p>Username: <%= student['Username']%></p>
+	<p>First name: <%= student['FirstName']%></p>
+	<p>Last name: <%= student['LastName']%></p>
+	<p>Gender: <%= student['Gender']%></p>
+	<p>Date of Birth: <%= student['DateOfBirth'].toString().substring(4,15) %></p>
+	<p>Country of origin: <%= student['CountryOfOrigin']%></p>
+	<p>Entry Year: <%= student['EntryYear']%></p>
+	<p>Course: <%= course['Qualification']+', '+course['CourseName']%></p>
+	<p>Level: <%= student['Level']%></p>
+	<p>Registration status: <%= student['RegistrationStatus']%></p>
+	<h2>Personal Tutor</h2>
+	<p>First name: <%= academicstaff['FirstName']%></p>
+	<p>Last name: <%= academicstaff['LastName']%></p>
+	<p>Email: <%= academicstaff['Email']%></p>
+
 </div>
 <% include partials/footer %>

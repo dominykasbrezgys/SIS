@@ -32,9 +32,9 @@ router.post('/login', function(req, res) {
     		//wrong username or password
     		res.redirect('/');
     	} 
-    	else if ( username == result[0]['username'] && password == result[0]['password']){
-    		req.session.user = result[0]['username'];
-    		req.session.type = result[0]['type'];
+    	else if ( username == result[0]['Username'] && password == result[0]['Password']){
+    		req.session.user = result[0]['Username'];
+    		req.session.type = result[0]['Type'];
     		res.redirect('home');
     	}
     	else{
