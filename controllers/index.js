@@ -12,7 +12,14 @@ var express = require('express')
 
 //Loading all controllers
 router.use(require('./student/home'));
+router.use(require('./student/modules'));
+router.use(require('./student/coursework'));
+router.use(require('./student/exams'));
+
 router.use(require('./academicstaff/home'));
+router.use(require('./academicstaff/modules'));
+router.use(require('./academicstaff/coursework'));
+router.use(require('./academicstaff/exams'));
 
 router.get('/', function(req, res) {
 	if (req.session.user){

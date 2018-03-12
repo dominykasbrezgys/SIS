@@ -19,7 +19,6 @@ exports.getByUsername = function(username, callback) {
 };
 
 exports.getPersonalTutor = function(id, callback) {
-	console.log(id);
 	sql = "SELECT * FROM AcademicStaff WHERE id= " +id;
 	con.query(sql, function(err, result) {
 		if (err) throw err;

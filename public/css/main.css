@@ -15,6 +15,22 @@
 	background: #6B8E23;
 }
 
+.text-white{
+    color: white;
+}
+
+.text-red{
+    color: #8B0000;
+}
+
+li.active{
+    background: white;
+}
+
+.text-green{
+    color: #6B8E23;
+}
+
 /*
 Styles for Log In page
 */
