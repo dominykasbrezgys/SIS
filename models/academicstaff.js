@@ -10,10 +10,18 @@ var con = mysql.createConnection({
     database: "SISdb"
 });
 
-exports.get = function(username, callback) {
+exports.getByUsername = function(username, callback) {
 	sql = "SELECT * FROM AcademicStaff WHERE username= '" +username+"'";
 	con.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result[0]);
+    });
+};
+
+exports.getPersonalTutees = function(id, callback) {
+	sql = "SELECT * FROM Student WHERE PersonalTutorID= "+id;
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result);
     });
 };

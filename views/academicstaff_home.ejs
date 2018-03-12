@@ -1,9 +1,18 @@
 <% include partials/academicstaff_header %>
 <div class="container">
-	<h1>Home</h1>
+	<h1>Personal Details </h1>
 	<p>Username: <%= academicstaff['Username']%></p>
 	<p>First name: <%= academicstaff['FirstName']%></p>
 	<p>Last name: <%= academicstaff['LastName']%></p>
 	<p>Email: <%= academicstaff['Email']%></p>
+	<h2>Personal tutees</h2>
+	<% personal_tutees.forEach(function(tutee) { %>
+	<p> <%= tutee['FirstName']%> <%= tutee['LastName']%> </p>
+	<% }); %>
+	<h2>All students</h2>
+
+	<% for (var i = 0; i < students.length; i++) { -%>
+		<p><%= students[i]['FirstName']%> <%= students[i]['LastName']%> [<%= students[i]['Username']%>] </p>
+	<% } -%>
 </div>
 <% include partials/footer %>

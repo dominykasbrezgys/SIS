@@ -29,7 +29,7 @@ exports.getPersonalTutor = function(id, callback) {
     });
 };
 
-exports.all = function(callback) {
+exports.getAll = function(callback) {
 	con.query("SELECT * FROM Student", function(err, result) {
 		if (err) throw err;
 		callback(result);
