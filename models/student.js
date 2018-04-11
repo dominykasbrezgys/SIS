@@ -1,5 +1,5 @@
 /*
-MODEL
+MODEL FOR STUDENT TABLE
 */
 var mysql = require('mysql');
 

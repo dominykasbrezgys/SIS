@@ -24,7 +24,6 @@ app.use(require('./middlewares/auth'));
 
 app.use(require('./controllers'));
 
-
 app.listen(3000, 'localhost', function() {
     console.log("Server is running...")
 });

@@ -1,5 +1,5 @@
 /*
-MODEL
+MODEL FOR COURSE TABLE
 */
 var mysql = require('mysql');
 
@@ -12,6 +12,14 @@ var con = mysql.createConnection({
 
 exports.getById = function(id, callback) {
 	sql = "SELECT * FROM Course WHERE id= '" +id+"'";
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result[0]);
+    });
+};
+
+exports.getDuration = function(id, callback) {
+	sql = "SELECT Duration FROM Course WHERE id= '" +id+"'";
 	con.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result[0]);
