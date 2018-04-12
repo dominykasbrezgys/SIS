@@ -50,3 +50,36 @@ exports.getAssessingStaff = function(moduleCode, callback) {
     });
 };
 
+exports.getModulesAssessedByUsername = function(staffUsername, callback) {
+
+	sql = "SELECT AcademicStaff.FirstName, AcademicStaff.LastName, Module.ModuleName, Module.ModuleCode, Module.NumberOfCredits"+
+		" FROM AcademicStaff"+
+		" INNER JOIN Assessing"+
+		" ON AcademicStaff.id = Assessing.AcademicStaffID"+
+		" INNER JOIN Module"+
+		" ON Assessing.ModuleCode = Module.ModuleCode"+
+		" WHERE AcademicStaff.Username='"+staffUsername+"'";
+
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result);
+    });
+};
+
+exports.getModulesTaughtByUsername = function(staffUsername, callback) {
+
+	sql = "SELECT AcademicStaff.FirstName, AcademicStaff.LastName, Module.ModuleName, Module.ModuleCode, Module.NumberOfCredits"+
+		" FROM AcademicStaff"+
+		" INNER JOIN Teaching"+
+		" ON AcademicStaff.id = Teaching.AcademicStaffID"+
+		" INNER JOIN Module"+
+		" ON Teaching.ModuleCode = Module.ModuleCode"+
+		" WHERE AcademicStaff.Username='"+staffUsername+"'";
+
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result);
+    });
+};
+
+

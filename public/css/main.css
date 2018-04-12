@@ -1,9 +1,7 @@
 
-
-li.dropdown:hover > .dropdown-menu {
-    display: block;
-}
-
+/*
+General Styling
+*/
 .header-margin{
 	margin-left: 0 ;
 }
@@ -35,6 +33,28 @@ li.active{
 
 .text-green{
     color: #6B8E23;
+}
+
+/*
+Styling for the dropdown menu
+*/
+li.dropdown:hover > .dropdown-menu {
+    display: block;
+}
+
+
+
+/*
+Tables Styling
+*/
+.table td, th {
+   text-align: center;   
+}
+
+.table.table-staff th{
+  background: #8B0000;
+  color: white;
+
 }
 
 /*

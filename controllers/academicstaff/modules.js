@@ -3,9 +3,7 @@ CONTROLLER
 */
 var express = require('express')
     ,router = express.Router()
-    ,AcademicStaff = require('../../models/academicstaff')
-    ,Module = require('../../models/module')
-    ,Student = require('../../models/student');
+    ,Module = require('../../models/module');
 
 
 router.get('/academicstaff/allmodules', function(req, res) {
@@ -18,9 +16,11 @@ router.get('/academicstaff/allmodules', function(req, res) {
 		modules.forEach(function(module){
 			Module.getTeachingStaff(module['ModuleCode'], function(teaching){
 				Module.getAssessingStaff(module['ModuleCode'], function(assessing){
+					//Build array for page rendering
 					rows.push({
 						ModuleCode : module['ModuleCode'],
 						ModuleName : module['ModuleName'],
+						Credits : module['NumberOfCredits'],
 						TeachingStaff : teaching,
 						AssessingStaff : assessing
 					});
@@ -30,6 +30,26 @@ router.get('/academicstaff/allmodules', function(req, res) {
 				});
 			});
 		});
+	});
+});
+
+router.get('/academicstaff/assessedmodules', function(req, res) {
+	username = req.session.user;
+	rows = [];
+
+	//Get modules that are assessed by the academic staff member
+	Module.getModulesAssessedByUsername(username, function(modulesAssessed){
+		res.render("academicstaff_assessed_modules",{modulesAssessed:modulesAssessed})
+	});
+});
+
+router.get('/academicstaff/taughtmodules', function(req, res) {
+	username = req.session.user;
+	rows = [];
+
+	//Get modules that are taught by the academic staff member
+	Module.getModulesTaughtByUsername(username, function(modulesTaught){
+		res.render("academicstaff_taught_modules", {modulesTaught:modulesTaught})
 	});
 });
 
