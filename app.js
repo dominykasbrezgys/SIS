@@ -3,6 +3,8 @@ var mysql = require('mysql');
 var bodyParser = require("body-parser");
 //var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var fileUpload = require('express-fileupload');
+
 
 var express = require("express");
 var app = express();
@@ -19,6 +21,8 @@ app.use(session({
 	resave: true,
 	saveUninitialized: true
 }));
+
+app.use(fileUpload());
 
 app.use(require('./middlewares/auth'));
 
