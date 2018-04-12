@@ -10,7 +10,7 @@ var express = require("express");
 var app = express();
 
 //Defining the directory where stylesheets and scripts are
-app.use(express.static("public"))
+app.use(express.static(__dirname +"/public"))
 //So .ejs extension can be ignored when rendering templates
 app.set("view engine", "ejs")
 

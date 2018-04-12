@@ -25,7 +25,7 @@
       <div class="form-group">
          <label class="control-label col-sm-2" for="modules">Module:</label>
          <div class="col-sm-2">
-            <select class="form-control" id="modules" name="module">
+            <select class="form-control" id="modules" name="ModuleCode">
                <%modules.forEach(function(module){%>
                <option><%= module['ModuleCode'] %> </option>
                <%})%>
@@ -35,19 +35,43 @@
       <div class="form-group">
          <label class="control-label col-sm-2" for="no">Coursework Number:</label>
          <div class="col-sm-2">
-            <input type="number" class ="form-control" id = "no" name="cwkNumber" min="1" max="5">      
+            <input type="number" class ="form-control" id = "no" name="CwkNumber" min="1" max="5">      
          </div>
       </div>
       <div class="form-group">
          <label class="control-label col-sm-2" for="w" >Weighting:</label>
          <div class="col-sm-2">
-            <input type="number" class ="form-control" name="cwkWeighting" id="w" min="1" max="100">   
+            <input type="number" class ="form-control" name="CwkWeighting" id="w" min="1" max="100">   
          </div>
       </div>
       <div class="form-group">
          <label class="control-label col-sm-2" for="maxM" >Max Mark:</label>
          <div class="col-sm-2">
-            <input type="number" class ="form-control" name="maxMark" id="maxM">      
+            <input type="number" class ="form-control" name="MaxMark" id="maxM">      
+         </div>
+      </div>
+      <div class="form-group">
+         <label class="control-label col-sm-2" for="setDate" >Set Date:</label>
+         <div class="col-sm-2">
+            <input type="text" name ="SetDate" class="form-control" id ="setDate" placeholder="DD/MM/YYYY"> 
+         </div>
+      </div>
+      <div class="form-group">
+         <label class="control-label col-sm-2" for="dueDate" >Due Date:</label>
+         <div class="col-sm-2">
+            <input type="text" name ="DueDate" class="form-control" id ="dueDate" placeholder="DD/MM/YYYY"> 
+         </div>
+      </div>
+      <div class="form-group">
+         <label class="control-label col-sm-2" for="returnDate" >Return Date:</label>
+         <div class="col-sm-2">
+            <input type="text" name ="ReturnDate" class="form-control" id ="returnDate" placeholder="DD/MM/YYYY"> 
+         </div>
+      </div>
+      <div class="form-group">
+         <label class="control-label col-sm-2" for="notes" >Notes:</label>
+         <div class="col-sm-2">
+            <input type="text" name = "Notes" class ="form-control" id ="notes" value=""> 
          </div>
       </div>
       <div class="form-group">
