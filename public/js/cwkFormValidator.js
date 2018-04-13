@@ -5,7 +5,7 @@ This code validates form on the client side using jQuery
  - Checks if the file being uploaded is a PDF
 */
 
-if (top.location.pathname == '/academicstaff/coursework'){
+if (top.location.pathname == '/academicstaff/coursework/add'){
     $(document).ready(function() {
         validateForm();
         $('#no').change(validateForm);

@@ -8,7 +8,7 @@ var express = require('express')
     ,Module = require('../../models/module');
 
 
-router.get('/academicstaff/coursework', function(req, res) {
+router.get('/academicstaff/coursework/add', function(req, res) {
     username = req.session.user;
     Module.getModulesTaughtByUsername(username, function(modulesTaught) {
         res.render("academicstaff_coursework", {
@@ -21,12 +21,10 @@ router.get('/academicstaff/coursework', function(req, res) {
 router.post('/academicstaff/uploadCwk', function(req, res) {
     var cwk = req.files.CwkFile;
 
-    if (cwk.mimetype != 'application/pdf') {
-        //TODO: if type doesnt macth
-    }
+    var today = new Date();
+    var fileName = req.body['ModuleCode'] + '_' + req.body['CwkNumber'] +'('+today.getFullYear()+'-'+today.getMonth()+'-'+(today.getDate()+1)+')'+'.pdf';
 
     //Use the mv() method to place the file on the server
-    var fileName = req.body['module'] + '_' + req.body['cwkNumber'] + '.pdf';
     cwk.mv(process.cwd() + '/Courseworks/' + fileName, function(err) {
         if (err) {
             console.log(err);
@@ -43,7 +41,8 @@ router.post('/academicstaff/uploadCwk', function(req, res) {
                 returnDate[2]+"-"+returnDate[1]+"-"+returnDate[0],
                 Number(req.body['CwkWeighting']),
         		Number(req.body['MaxMark']),
-        		req.body['Notes']
+        		req.body['Notes'],
+                fileName
         	]];
         	Coursework.addCoursework(coursework,function(){
                 console.log("Database updated!");
@@ -51,7 +50,7 @@ router.post('/academicstaff/uploadCwk', function(req, res) {
             console.log("Uploaded!");
         }
     });
-    res.redirect('/academicstaff/coursework');
+    res.redirect('/academicstaff/coursework/add');
 });
 
 module.exports = router;

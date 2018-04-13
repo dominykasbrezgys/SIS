@@ -12,7 +12,7 @@ var con = mysql.createConnection({
 
 exports.addCoursework = function(coursework,callback) {
 	sql = "INSERT INTO Coursework "+
-	"(ModuleCode, CourseworkNumber, SetDate, DueDate, ReturnDate, Weighting, MaxMark, Notes) "+
+	"(ModuleCode, CourseworkNumber, SetDate, DueDate, ReturnDate, Weighting, MaxMark, Notes, FileName) "+
 	"VALUES ?";
 	con.query(sql,[coursework], function(err, result) {
 		if (err) throw err;

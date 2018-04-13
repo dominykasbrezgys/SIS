@@ -5,7 +5,6 @@ Code that assigns active class depending on current URL
 
 $(document).ready(function() {
     var pathname = window.location.pathname;
-    console.log(pathname);
 
     //Paths for academic staff pages
     if (pathname == '/academicstaff/home') {
