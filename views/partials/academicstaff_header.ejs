@@ -6,14 +6,50 @@
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <!-- Custom stylesheet-->
   <link rel="stylesheet" type="text/css" href="/css/main.css">
 
   <!-- Bootstrap Date-Picker Plugin -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
+  <!--Custom scripts-->
   <script src="/js/datepicker.js"></script>
   <script src="/js/cwkFormValidator.js"></script>
+  <script src="/js/activeNavbar.js"></script>
 
 </head>
 <body>
+  <nav class="navbar bg-red">
+     <div class="container-fluid">
+        <ul class="nav navbar-nav">
+           <li><a id ="navHome" class = "text-white" href="/academicstaff/home">Home</a></li>
+           <li class = "dropdown">
+              <a href="#" id ="navModules" class = "text-white dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+              <ul class="dropdown-menu multi-level">
+                 <li><a href="/academicstaff/allmodules">All</a></li>
+                 <li><a href="/academicstaff/assessedmodules">Assessed</a></li>
+                 <li><a href="/academicstaff/taughtmodules">Taught</a></li>
+              </ul>
+           </li>
+           <li class = "dropdown">
+              <a href="#" id="navCoursework" class = "text-white dropdown-toggle" data-toggle="dropdown">Coursework<b class="caret"></b></a>
+              <ul class="dropdown-menu multi-level">
+                 <li><a href="#">Assessed modules</a></li>
+                 <li class="dropdown-submenu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Taught modules</a>
+                    <ul class="dropdown-menu">
+                       <li><a href="/academicstaff/coursework">Add</a></li>
+                       <li><a href="#">Mark</a></li>
+                    </ul>
+                 </li>
+              </ul>
+           </li>
+           <li><a id="navExams" class = "text-white" href="/academicstaff/exams">Exams</a></li>
+        </ul>
+        <div class="nav navbar-nav navbar-right">
+           <a href="/logout" class="navbar-brand text-white"><strong>Logout</strong></a>
+        </div>
+     </div>
+  </nav>

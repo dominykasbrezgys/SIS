@@ -4,7 +4,27 @@
 	<title>School Information System</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<!-- Custom stylesheet -->
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+	<!-- Custom Scripts -->
+	<script src="/js/activeNavbar.js"></script>
 </head>
 <body>
+  <nav class="navbar bg-green">
+     <div class="container-fluid">
+        <ul class="nav navbar-nav">
+        	<li><a id = "navHome" class = "text-white" href="/student/home">Home</a></li>
+        	<li><a id = "navModules" class = "text-white" href="/student/modules">Modules</a></li>
+        	<li><a id = "navCoursework" class = "text-white" href="/student/coursework">Coursework</a></li>
+        	<li><a id = "navExams" class = "text-white" href="/student/exams">Exams</a></li>
+        </ul>
+        <div class="nav navbar-nav navbar-right">
+           <a href="/logout" class="navbar-brand text-white"><strong>Logout</strong></a>
+        </div>
+     </div>
+  </nav>
+

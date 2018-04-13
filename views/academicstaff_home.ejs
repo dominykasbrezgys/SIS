@@ -1,24 +1,4 @@
 <% include partials/academicstaff_header %>
-<nav class="navbar bg-red">
-  <div class="container-fluid">
-    <ul class="nav navbar-nav">
-      <li class="active"><a class = "text-red" href="/">Home</a></li>
-      <li class = "dropdown ">
-        <a href="#" class = "text-white dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="/academicstaff/allmodules">All</a></li>
-            <li><a href="/academicstaff/assessedmodules">Assessed</a></li>
-            <li><a href="/academicstaff/taughtmodules">Taught</a></li>
-          </ul>
-      </li>
-      <li><a class = "text-white" href="/academicstaff/coursework">Coursework</a></li>
-      <li><a class = "text-white" href="/academicstaff/exams">Exams</a></li>
-    </ul>
-    <div class="nav navbar-nav navbar-right">
-      <a href="/logout" class="navbar-brand text-white"><strong>Logout</strong></a>
-    </div>
-  </div>
-</nav>
 <div class="container">
 	<h1>Personal Details </h1>
 	<p>Username: <%= academicstaff['Username']%></p>
