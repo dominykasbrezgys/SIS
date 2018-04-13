@@ -1,5 +1,5 @@
 /*
-MODEL FOR Module TABLE
+MODEL FOR retrieving info about Modules
 */
 var mysql = require('mysql');
 

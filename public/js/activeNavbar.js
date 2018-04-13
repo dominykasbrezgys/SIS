@@ -17,7 +17,8 @@ $(document).ready(function() {
         $('#navModules').addClass('active').addClass('text-red');
     }
 
-    if (pathname == '/academicstaff/coursework') {
+    if (pathname == '/academicstaff/coursework/add' ||
+        pathname == '/academicstaff/coursework/assess') {
         $('#navCoursework').addClass('active').addClass('text-red');
     }
 

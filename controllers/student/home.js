@@ -6,6 +6,9 @@ var express = require('express')
     ,Student = require('../../models/student')
     ,Course = require('../../models/course');
 
+/*
+Route for displaying main information about the student
+*/
 router.get('/student/home', function(req, res) {
 	username = req.session.user;
 

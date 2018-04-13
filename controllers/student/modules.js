@@ -7,6 +7,9 @@ var express = require('express')
     ,Module = require('../../models/module')
     ,Enrolment = require('../../models/enrolment');
 
+/*
+Route for displaying modules that a student is enrolled on
+*/
 router.get('/student/modules', function(req, res) {
 	username = req.session.user;
 	modules = [];

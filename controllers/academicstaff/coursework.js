@@ -5,20 +5,26 @@ CONTROLLER
 var express = require('express')
     ,router = express.Router()
     ,Coursework = require('../../models/coursework')
+    ,Assessing = require('../../models/assessing')
     ,Module = require('../../models/module');
 
-
+/*
+Route to display a form for adding a coursework
+*/
 router.get('/academicstaff/coursework/add', function(req, res) {
     username = req.session.user;
     Module.getModulesTaughtByUsername(username, function(modulesTaught) {
-        res.render("academicstaff_coursework", {
+        res.render('academicstaff_coursework_add', {
             modules: modulesTaught
         });
     });
 
 });
 
-router.post('/academicstaff/uploadCwk', function(req, res) {
+/*
+Route for add coursework post request
+*/
+router.post('/academicstaff/uploadcwk', function(req, res) {
     var cwk = req.files.CwkFile;
 
     var today = new Date();
@@ -47,10 +53,35 @@ router.post('/academicstaff/uploadCwk', function(req, res) {
         	Coursework.addCoursework(coursework,function(){
                 console.log("Database updated!");
         	});
-            console.log("Uploaded!");
+            console.log("Coursework uploaded!");
         }
     });
     res.redirect('/academicstaff/coursework/add');
+});
+
+router.get('/academicstaff/coursework/assess', function(req,res){
+    username = req.session.user;
+    //This array is used to compose date for page rendering
+    data = [];
+
+    //Get all modules assessed by the user
+    Assessing.getModulesAssessedBy(username,function(modules){
+        modules.forEach(function(module){
+            //Retrieve coursework file names of each module
+            Coursework.getCourseworkFileNamesOf(module['ModuleCode'],function(courseworkFiles){
+                courseworkFiles.forEach(function(cwk){
+                    data.push({
+                        ModuleCode : module['ModuleCode'],
+                        FileName : cwk['FileName']
+                    });
+                    //Render page when data is complete
+                    if(data.length == (modules.length*courseworkFiles.length)){
+                        res.render('academicstaff_coursework_assess',{data:data});
+                    }
+                });
+            });
+        });
+    });
 });
 
 module.exports = router;

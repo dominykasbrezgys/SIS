@@ -19,3 +19,12 @@ exports.addCoursework = function(coursework,callback) {
 		callback();
     });
 };
+
+exports.getCourseworkFileNamesOf = function(module,callback) {
+	sql = "SELECT FileName FROM Coursework "+
+		"WHERE ModuleCode= '"+module+"'";
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result);
+    });
+};
