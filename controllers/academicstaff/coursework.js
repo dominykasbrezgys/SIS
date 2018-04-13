@@ -19,7 +19,7 @@ router.get('/academicstaff/coursework', function(req, res) {
 });
 
 router.post('/academicstaff/uploadCwk', function(req, res) {
-    var cwk = req.files.cwk;
+    var cwk = req.files.CwkFile;
 
     if (cwk.mimetype != 'application/pdf') {
         //TODO: if type doesnt macth
@@ -45,11 +45,9 @@ router.post('/academicstaff/uploadCwk', function(req, res) {
         		Number(req.body['MaxMark']),
         		req.body['Notes']
         	]];
-
         	Coursework.addCoursework(coursework,function(){
                 console.log("Database updated!");
         	});
-
             console.log("Uploaded!");
         }
     });
