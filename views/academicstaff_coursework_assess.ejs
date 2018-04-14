@@ -6,14 +6,36 @@
       <thead>
          <tr>
             <th>Module Code</th>
+            <th>Coursework number</th>
             <th>File</th>
+            <th>Is approved</th>
          </tr>
       </thead>
       <tbody>
          <% data.forEach(function(row){ %>
          <tr>
             <td> <%= row.ModuleCode %> </td>
-            <td> <%= row.FileName %> <button type="button">Click Me!</button></td> 
+            <td> <%= row.CourseworkNumber %> </td>
+            <td> 
+            	<%= row.FileName %> 
+            	<% downloadPath = '/academicstaff/coursework/download/'+row.FileName %>
+            	<a class="btn btn-default" href=<%= downloadPath%> >Download</a>
+
+            	<%if (!row.IsApproved) {%>
+            	<% approvePath = '/academicstaff/coursework/approve/' + row.ID%>
+            	<a class="btn btn-default btn-approve" href=<%=approvePath%> >Approve</a>
+            	<%}else{ %>
+            	<% disapprovePath = '/academicstaff/coursework/disapprove/' + row.ID%>
+            	<a class="btn btn-default btn-disapprove" href=<%=disapprovePath%> >Disapprove</a>
+            	<%}%>
+            </td> 
+            <td> 
+            	<%if(row.IsApproved){ %>
+            	Yes <span class="glyphicon glyphicon-ok"></span>
+            	<%}else{%>
+            	No <span class="glyphicon glyphicon-remove"></span>
+            	<%}%> 
+            </td>
          </tr>
          <% });%>
       </tbody>

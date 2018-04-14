@@ -59,6 +59,10 @@ router.post('/academicstaff/uploadcwk', function(req, res) {
     res.redirect('/academicstaff/coursework/add');
 });
 
+/*
+Route for a user to display all modules assessed and download a 
+corresponding Coursework file to download
+*/
 router.get('/academicstaff/coursework/assess', function(req,res){
     username = req.session.user;
     //This array is used to compose date for page rendering
@@ -68,19 +72,48 @@ router.get('/academicstaff/coursework/assess', function(req,res){
     Assessing.getModulesAssessedBy(username,function(modules){
         modules.forEach(function(module){
             //Retrieve coursework file names of each module
-            Coursework.getCourseworkFileNamesOf(module['ModuleCode'],function(courseworkFiles){
-                courseworkFiles.forEach(function(cwk){
+            Coursework.getCourseworkOf(module['ModuleCode'],function(coursework){
+                coursework.forEach(function(cwk){
                     data.push({
+                        ID : cwk['id'],
                         ModuleCode : module['ModuleCode'],
-                        FileName : cwk['FileName']
+                        CourseworkNumber : cwk['CourseworkNumber'],
+                        FileName : cwk['FileName'],
+                        IsApproved : cwk['IsApproved']
                     });
                     //Render page when data is complete
-                    if(data.length == (modules.length*courseworkFiles.length)){
+                    if(data.length == (modules.length*coursework.length)){
                         res.render('academicstaff_coursework_assess',{data:data});
                     }
                 });
             });
         });
+    });
+});
+
+/*
+Route for downloading a coursework file
+*/
+router.get('/academicstaff/coursework/download/:filename', function(req,res){
+    var file = process.cwd() + '/Courseworks/'+req.params['filename'];
+    res.download(file);
+});
+
+/*
+Route for approving the coursework (redirects to /academicstaff/coursework/assess)
+*/
+router.get('/academicstaff/coursework/approve/:idInDatabase', function(req,res){
+    Coursework.approveCourseworkById(req.params['idInDatabase'], function(){
+        res.redirect('/academicstaff/coursework/assess');;
+    });
+});
+
+/*
+Route for disapproving the coursework (redirects to /academicstaff/coursework/assess)
+*/
+router.get('/academicstaff/coursework/disapprove/:idInDatabase', function(req,res){
+    Coursework.disapproveCourseworkById(req.params['idInDatabase'], function(){
+        res.redirect('/academicstaff/coursework/assess');;
     });
 });
 

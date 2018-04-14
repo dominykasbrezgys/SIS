@@ -113,6 +113,40 @@ Tables Styling
 }
 
 /*
+Styles for approve disaprove icons
+*/
+.glyphicon-ok {
+  color: green;
+}
+
+.glyphicon-remove {
+  color: red;
+}
+
+/*
+Styles for approve/disapprove coursework button
+*/
+.btn-approve{
+  background: #00b300;
+  color: white;
+}
+
+.btn-approve:hover{
+  background: #00cc00;
+  color: white;
+}
+
+.btn-disapprove{
+  background: #cc0000;
+  color: white;
+}
+
+.btn-disapprove:hover {
+  background: #e60000;
+  color: white;
+}
+
+/*
 Styles for Log In page
 */
 

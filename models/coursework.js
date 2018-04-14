@@ -20,11 +20,31 @@ exports.addCoursework = function(coursework,callback) {
     });
 };
 
-exports.getCourseworkFileNamesOf = function(module,callback) {
-	sql = "SELECT FileName FROM Coursework "+
+exports.getCourseworkOf = function(module,callback) {
+	sql = "SELECT id, CourseworkNumber, FileName, IsApproved FROM Coursework "+
 		"WHERE ModuleCode= '"+module+"'";
 	con.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result);
+    });
+};
+
+exports.approveCourseworkById = function(id,callback) {
+	sql = "UPDATE Coursework "+
+		"SET IsApproved = 1 "+
+		"WHERE id ="+id;
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback();
+    });
+};
+
+exports.disapproveCourseworkById = function(id,callback) {
+	sql = "UPDATE Coursework "+
+		"SET IsApproved = 0 "+
+		"WHERE id ="+id;
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback();
     });
 };
