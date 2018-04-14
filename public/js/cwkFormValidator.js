@@ -24,7 +24,7 @@ if (top.location.pathname == '/academicstaff/coursework/add'){
             var fileCwk = $("#cwkFile").val();
             if (fileCwk.substring(fileCwk.length - 4) != '.pdf') {
                 $('#wrongFormatMessage').show();
-                $("#submit").prop("disabled", true);
+                $("#uploadCoursework").prop("disabled", true);
                 return;
             } else {
                 $('#wrongFormatMessage').hide();
@@ -37,9 +37,9 @@ if (top.location.pathname == '/academicstaff/coursework/add'){
             $('#dueDate').val().length > 0 &&
             $('#returnDate').val().length > 0 &&
             $("#cwkFile").val()) {
-            $("#submit").prop("disabled", false);
+            $("#uploadCoursework").prop("disabled", false);
         } else {
-            $("#submit").prop("disabled", true);
+            $("#uploadCoursework").prop("disabled", true);
         }
     }
 }

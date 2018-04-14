@@ -35,7 +35,6 @@ router.get('/academicstaff/allmodules', function(req, res) {
 
 router.get('/academicstaff/assessedmodules', function(req, res) {
 	username = req.session.user;
-	rows = [];
 
 	//Get modules that are assessed by the academic staff member
 	Module.getModulesAssessedByUsername(username, function(modulesAssessed){
@@ -45,7 +44,6 @@ router.get('/academicstaff/assessedmodules', function(req, res) {
 
 router.get('/academicstaff/taughtmodules', function(req, res) {
 	username = req.session.user;
-	rows = [];
 
 	//Get modules that are taught by the academic staff member
 	Module.getModulesTaughtByUsername(username, function(modulesTaught){

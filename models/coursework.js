@@ -21,7 +21,7 @@ exports.addCoursework = function(coursework,callback) {
 };
 
 exports.getCourseworkOf = function(module,callback) {
-	sql = "SELECT id, CourseworkNumber, FileName, IsApproved FROM Coursework "+
+	sql = "SELECT id, ModuleCode, CourseworkNumber, FileName, IsApproved FROM Coursework "+
 		"WHERE ModuleCode= '"+module+"'";
 	con.query(sql, function(err, result) {
 		if (err) throw err;

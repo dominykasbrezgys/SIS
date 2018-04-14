@@ -1,7 +1,7 @@
 <% include partials/academicstaff_header %>
 <div class="container">
+   <%if (data.length != 0 ){%>
    <h1>Assess coursework</h1>
-
     <table class="table table-striped table-hover table-staff table-bordered">
       <thead>
          <tr>
@@ -40,6 +40,9 @@
          <% });%>
       </tbody>
    </table>
+   <%} else{%>
+   <h2>No coursework to assess!</h2>
+   <%}%>
 
 </div>
 <% include partials/footer %>

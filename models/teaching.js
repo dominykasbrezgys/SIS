@@ -1,5 +1,5 @@
 /*
-MODEL FOR Assessing table
+MODEL FOR Teaching table
 */
 var mysql = require('mysql');
 
@@ -10,11 +10,11 @@ var con = mysql.createConnection({
     database: "SISdb"
 });
 
-exports.getModulesAssessedBy = function(username, callback){
-	sql = "SELECT Assessing.ModuleCode"+
-		" FROM Assessing"+
+exports.getModulesTaughtBy = function(username, callback){
+	sql = "SELECT Teaching.ModuleCode"+
+		" FROM teaching"+
 		" INNER JOIN AcademicStaff"+
-		" ON AcademicStaff.id = Assessing.AcademicStaffID"+
+		" ON AcademicStaff.id = Teaching.AcademicStaffID"+
 		" WHERE AcademicStaff.Username= '"+username+"'";
 	con.query(sql, function(err, result) {
 		if (err) throw err;

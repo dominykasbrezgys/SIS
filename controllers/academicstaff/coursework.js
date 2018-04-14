@@ -1,11 +1,12 @@
 
 /*
-CONTROLLER 
+CONTROLLER - COURSEWORK MANAGEMENT
 */
 var express = require('express')
     ,router = express.Router()
     ,Coursework = require('../../models/coursework')
     ,Assessing = require('../../models/assessing')
+    ,Teaching = require('../../models/teaching')
     ,Module = require('../../models/module');
 
 /*
@@ -24,7 +25,7 @@ router.get('/academicstaff/coursework/add', function(req, res) {
 /*
 Route for add coursework post request
 */
-router.post('/academicstaff/uploadcwk', function(req, res) {
+router.post('/academicstaff/coursework/uploadcwk', function(req, res) {
     var cwk = req.files.CwkFile;
 
     var today = new Date();
@@ -61,7 +62,7 @@ router.post('/academicstaff/uploadcwk', function(req, res) {
 
 /*
 Route for a user to display all modules assessed and download a 
-corresponding Coursework file to download
+corresponding Coursework file
 */
 router.get('/academicstaff/coursework/assess', function(req,res){
     username = req.session.user;
@@ -70,9 +71,27 @@ router.get('/academicstaff/coursework/assess', function(req,res){
 
     //Get all modules assessed by the user
     Assessing.getModulesAssessedBy(username,function(modules){
+
+        //If no modules are assessed by this user - render a page
+        if (modules.length == 0){
+            res.render('academicstaff_coursework_assess');
+            return;
+        }
+
+        //If there are modules that user assesses - iterate over all of them
         modules.forEach(function(module){
-            //Retrieve coursework file names of each module
+            //Retrieve coursework information of each module
             Coursework.getCourseworkOf(module['ModuleCode'],function(coursework){
+
+                //If there are no coursework at the last module and no data
+                //gathered from previous modules - render a page
+                if(coursework.length == 0 &&
+                    module == modules[modules.length-1] &&
+                    data.length == 0){
+                    res.render('academicstaff_coursework_assess');
+                    return;
+                }
+
                 coursework.forEach(function(cwk){
                     data.push({
                         ID : cwk['id'],
@@ -81,8 +100,9 @@ router.get('/academicstaff/coursework/assess', function(req,res){
                         FileName : cwk['FileName'],
                         IsApproved : cwk['IsApproved']
                     });
-                    //Render page when data is complete
-                    if(data.length == (modules.length*coursework.length)){
+                    //Render page when data is complete (reached the end of checking all modules and all coursework)
+                    if(module == modules[modules.length-1] &&
+                        cwk == coursework[coursework.length-1]){
                         res.render('academicstaff_coursework_assess',{data:data});
                     }
                 });
@@ -116,5 +136,73 @@ router.get('/academicstaff/coursework/disapprove/:idInDatabase', function(req,re
         res.redirect('/academicstaff/coursework/assess');;
     });
 });
+
+/*
+Route that is used for chosing which coursework to mark
+*/
+router.get('/academicstaff/coursework/mark', function(req,res){
+    username = req.session.user;
+    //Arrays represents data needed for page rendering
+    cwkNumbers = [];
+    moduleCodes = [];
+
+    //Get all modules taught by the user
+    Teaching.getModulesTaughtBy(username,function(modules){
+
+        //If no modules taught - there will be no coursework to mark, hence render the page
+        if(modules.length == 0){
+            res.render('academicstaff_coursework_mark_choose')
+        }
+        modules.forEach(function(module){
+            //Retrieve coursework of each module
+            Coursework.getCourseworkOf(module['ModuleCode'],function(coursework){
+
+                //If there are no coursework at the last module and no data
+                //gathered from previous modules - render a page
+                if(coursework.length == 0 &&
+                    module == modules[modules.length-1] &&
+                    cwkNumbers.length == 0){
+                    res.render('academicstaff_coursework_mark_choose');
+                    return;
+                }
+
+                //If there are no coursework at the last module but some data
+                //gathered from previous modules - render a page passing that data
+                if(coursework.length == 0 && 
+                    module == modules[modules.length-1] &&
+                    cwkNumbers.length > 0 ){
+                    res.render('academicstaff_coursework_mark_choose',{cwkNumbers:cwkNumbers, moduleCodes:moduleCodes});
+                    return;
+                }
+
+                coursework.forEach(function(cwk){
+                    cwkNumbers.push({CourseworkNumber: cwk['CourseworkNumber']});
+
+                    //If the end of coursework array reached - add module code for page rendering
+                    if(cwk == coursework[coursework.length-1]){
+                        moduleCodes.push({ModuleCode: cwk['ModuleCode']})
+                    }
+                    
+                    //Render page when data is complete (reached the end of checking all modules and all coursework)
+                    if(module == modules[modules.length-1] &&
+                        cwk == coursework[coursework.length-1]){
+                        res.render('academicstaff_coursework_mark_choose',{cwkNumbers:cwkNumbers, moduleCodes:moduleCodes});
+                        return;
+                    }
+                });
+            });
+
+        });
+    });
+});
+
+router.get('/academicstaff/coursework/mark/:ModuleCode/:CourseworkNumber', function(req,res){
+    res.render('academicstaff_coursework_mark');
+});
+
+router.post('/academicstaff/coursework/mark/choosecoursework', function(req,res){
+    res.redirect('/academicstaff/coursework/mark/'+req.body['ModuleCode']+'/'+req.body['CourseworkNumber'])
+});
+
 
 module.exports = router;
