@@ -7,7 +7,8 @@ var express = require('express')
     ,Coursework = require('../../models/coursework')
     ,Assessing = require('../../models/assessing')
     ,Teaching = require('../../models/teaching')
-    ,Module = require('../../models/module');
+    ,Module = require('../../models/module')
+    ,Enrolment = require('../../models/enrolment');
 
 /*
 Route to display a form for adding a coursework
@@ -29,7 +30,7 @@ router.post('/academicstaff/coursework/uploadcwk', function(req, res) {
     var cwk = req.files.CwkFile;
 
     var today = new Date();
-    var fileName = req.body['ModuleCode'] + '_' + req.body['CwkNumber'] +'('+today.getFullYear()+'-'+today.getMonth()+'-'+(today.getDate()+1)+')'+'.pdf';
+    var fileName = req.body['ModuleCode'] + '_' + req.body['CwkNumber'] +'('+today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+')'+'.pdf';
 
     //Use the mv() method to place the file on the server
     cwk.mv(process.cwd() + '/Courseworks/' + fileName, function(err) {
@@ -66,7 +67,7 @@ corresponding Coursework file
 */
 router.get('/academicstaff/coursework/assess', function(req,res){
     username = req.session.user;
-    //This array is used to compose date for page rendering
+    //This array is used to compose data for page rendering
     data = [];
 
     //Get all modules assessed by the user
@@ -196,13 +197,45 @@ router.get('/academicstaff/coursework/mark', function(req,res){
     });
 });
 
+/*
+Route for marking chosen coursework
+*/
 router.get('/academicstaff/coursework/mark/:ModuleCode/:CourseworkNumber', function(req,res){
-    res.render('academicstaff_coursework_mark');
+    console.log(req.params['ModuleCode']);
+    console.log(req.params['CourseworkNumber']);
+
+    //Get current year of study
+    var today = new Date();
+    var month = today.getMonth()+1;
+    var yearOfStudy = today.getFullYear();
+    //If current month is from January to August, subtract one
+    if( 1<= month < 9){
+        yearOfStudy-=1;
+    }
+    //Get all students that are currently enrolled on the module
+    Enrolment.getCurrentEnrollments(req.params['ModuleCode'],yearOfStudy, function(studentsEnrolled){
+        Coursework.getCwkIdAndMaxMark(req.params['ModuleCode'],req.params['CourseworkNumber'], function(cwkInfo){
+            res.render('academicstaff_coursework_mark',{studentsEnrolled : studentsEnrolled, 
+                                            cwkInfo : cwkInfo });
+        });
+    });
 });
 
+/*
+Route for post request when user chooses which coursework to mark
+*/
 router.post('/academicstaff/coursework/mark/choosecoursework', function(req,res){
     res.redirect('/academicstaff/coursework/mark/'+req.body['ModuleCode']+'/'+req.body['CourseworkNumber'])
 });
+
+/*
+Route for submitting a mark to database
+*/
+router.post('/academicstaff/coursework/mark/submit/:StudentID/:CourseworkID',function(req,res){
+    Coursework.addMark(req.params['CourseworkID'], req.params['StudentID'], req.body['RawMark'],function(){
+        console.log("Database updated!");
+    })
+})
 
 
 module.exports = router;

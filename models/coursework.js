@@ -48,3 +48,25 @@ exports.disapproveCourseworkById = function(id,callback) {
 		callback();
     });
 };
+
+exports.getCwkIdAndMaxMark = function(ModuleCode, CourseworkNumber ,callback) {
+	sql = "SELECT id, MaxMark "+
+		"FROM Coursework "+
+		"WHERE ModuleCode='"+ModuleCode+"' "+
+		"AND CourseworkNumber="+CourseworkNumber;
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result[0]);
+    });
+};
+
+exports.addMark = function(CourseworkID, StudentID, RawMark, callback) {
+	sql = "INSERT INTO CourseworkMark (CourseworkID, StudentID, RawMark) "+
+		"VALUES ("+CourseworkID+","+StudentID+","+RawMark+")";
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback();
+    });
+};
+
+
