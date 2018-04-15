@@ -1,0 +1,28 @@
+<% include partials/academicstaff_header %>
+<div class="container">
+
+   <%if (moduleCodes.length !=0){%>
+   <h1>Select an exam to mark: </h1>
+      <form ref='uploadForm' encType="multipart/form-data" class="form-horizontal" action="/academicstaff/exams/mark/chooseexam" method="post">
+      <div class="form-group">
+         <label class="control-label col-sm-2" for="modules">Module:</label>
+         <div class="col-sm-2">
+            <select class="form-control" id="modules" name="ModuleCode">
+               <%moduleCodes.forEach(function(code){%>
+               <option><%= code.ModuleCode %> </option>
+               <%})%>
+            </select>
+         </div>
+      </div>
+      <div class="form-group">
+         <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" id="chooseExam" class="btn btn-default" >Mark</button>
+         </div>
+      </div>
+   </form>
+   <%}else{%>
+   <h1>Nothing to mark!</h1>
+   <%}%>
+
+</div>
+<% include partials/footer %>

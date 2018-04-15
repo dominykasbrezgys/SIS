@@ -62,7 +62,7 @@ router.post('/academicstaff/coursework/uploadcwk', function(req, res) {
 });
 
 /*
-Route for a user to display all modules assessed and download a 
+Route for a user to display all coursework assessed and download a 
 corresponding Coursework file
 */
 router.get('/academicstaff/coursework/assess', function(req,res){
@@ -215,7 +215,7 @@ router.get('/academicstaff/coursework/mark/:ModuleCode/:CourseworkNumber', funct
 
     //Get all students that are currently enrolled on the module
     Enrolment.getCurrentEnrollments(req.params['ModuleCode'],yearOfStudy, function(studentsEnrolled){
-        //Get information needed for page rendering (CourseworkID in the database and Max mar of that coursework)
+        //Get information needed for page rendering (CourseworkID in the database and Max mark of that coursework)
         Coursework.getCwkIdAndMaxMark(req.params['ModuleCode'],req.params['CourseworkNumber'], function(cwkInfo){
             //Check if any student has already been marked
             studentsEnrolled.forEach(function(student){

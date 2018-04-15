@@ -1,0 +1,46 @@
+<% include partials/academicstaff_header %>
+<div class="container">
+   <%if (data.length != 0 ){%>
+   <h1>Assess exams</h1>
+    <table class="table table-striped table-hover table-staff table-bordered">
+      <thead>
+         <tr>
+            <th>Module Code</th>
+            <th>File</th>
+            <th>Is approved</th>
+         </tr>
+      </thead>
+      <tbody>
+         <% data.forEach(function(row){ %>
+         <tr>
+            <td> <%= row.ModuleCode %> </td>
+            <td> 
+            	<%= row.FileName %> 
+            	<% downloadPath = '/academicstaff/exams/download/'+row.FileName %>
+            	<a class="btn btn-default" href=<%= downloadPath%> >Download</a>
+
+            	<%if (!row.IsApproved) {%>
+            	<% approvePath = '/academicstaff/exams/approve/' + row.ID%>
+            	<a class="btn btn-default btn-green" href=<%=approvePath%> >Approve</a>
+            	<%}else{ %>
+            	<% disapprovePath = '/academicstaff/exams/disapprove/' + row.ID%>
+            	<a class="btn btn-default btn-red" href=<%=disapprovePath%> >Disapprove</a>
+            	<%}%>
+            </td> 
+            <td> 
+            	<%if(row.IsApproved){ %>
+            	Yes <span class="glyphicon glyphicon-ok"></span>
+            	<%}else{%>
+            	No <span class="glyphicon glyphicon-remove"></span>
+            	<%}%> 
+            </td>
+         </tr>
+         <% });%>
+      </tbody>
+   </table>
+   <%} else{%>
+   <h2>No exams to assess!</h2>
+   <%}%>
+
+</div>
+<% include partials/footer %>
