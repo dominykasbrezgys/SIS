@@ -21,7 +21,7 @@ $(document).ready(function() {
         $('#navCoursework').addClass('active').addClass('text-red');
     }
 
-    if (pathname == '/academicstaff/exams') {
+    if (pathname == '/academicstaff/exams/add') {
         $('#navExams').addClass('active').addClass('text-red');
     }
 
