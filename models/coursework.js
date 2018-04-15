@@ -61,11 +61,45 @@ exports.getCwkIdAndMaxMark = function(ModuleCode, CourseworkNumber ,callback) {
 };
 
 exports.addMark = function(CourseworkID, StudentID, RawMark, callback) {
+	if (RawMark==''){
+		callback();
+		return;
+	}
 	sql = "INSERT INTO CourseworkMark (CourseworkID, StudentID, RawMark) "+
 		"VALUES ("+CourseworkID+","+StudentID+","+RawMark+")";
 	con.query(sql, function(err, result) {
 		if (err) throw err;
 		callback();
+    });
+};
+
+exports.removeMark = function(CourseworkID, StudentID,callback){
+	sql = "DELETE FROM CourseworkMark "+
+		"WHERE CourseworkID = "+CourseworkID+
+		" AND StudentID = "+StudentID;;
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback();
+    });
+}
+
+exports.isStudentMarked = function(StudentID, CourseworkID ,callback) {
+	sql = "SELECT RawMark "+
+		"FROM CourseworkMark "+
+		"WHERE StudentID='"+StudentID+"' "+
+		"AND CourseworkID="+CourseworkID;
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result[0]);
+    });
+};
+
+exports.getCourseworkById = function(id,callback) {
+	sql = "SELECT ModuleCode, CourseworkNumber FROM Coursework "+
+		"WHERE id= '"+id+"'";
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result[0]['ModuleCode'], result[0]['CourseworkNumber']);
     });
 };
 

@@ -126,22 +126,22 @@ Styles for approve disaprove icons
 /*
 Styles for approve/disapprove coursework button
 */
-.btn-approve{
+.btn-green{
   background: #00b300;
   color: white;
 }
 
-.btn-approve:hover{
+.btn-green:hover{
   background: #00cc00;
   color: white;
 }
 
-.btn-disapprove{
+.btn-red{
   background: #cc0000;
   color: white;
 }
 
-.btn-disapprove:hover {
+.btn-red:hover {
   background: #e60000;
   color: white;
 }

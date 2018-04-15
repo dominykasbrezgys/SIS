@@ -201,9 +201,6 @@ router.get('/academicstaff/coursework/mark', function(req,res){
 Route for marking chosen coursework
 */
 router.get('/academicstaff/coursework/mark/:ModuleCode/:CourseworkNumber', function(req,res){
-    console.log(req.params['ModuleCode']);
-    console.log(req.params['CourseworkNumber']);
-
     //Get current year of study
     var today = new Date();
     var month = today.getMonth()+1;
@@ -212,11 +209,36 @@ router.get('/academicstaff/coursework/mark/:ModuleCode/:CourseworkNumber', funct
     if( 1<= month < 9){
         yearOfStudy-=1;
     }
+
+    //Array for composing data needed for page rendering
+    var data = [];
+
     //Get all students that are currently enrolled on the module
     Enrolment.getCurrentEnrollments(req.params['ModuleCode'],yearOfStudy, function(studentsEnrolled){
+        //Get information needed for page rendering (CourseworkID in the database and Max mar of that coursework)
         Coursework.getCwkIdAndMaxMark(req.params['ModuleCode'],req.params['CourseworkNumber'], function(cwkInfo){
-            res.render('academicstaff_coursework_mark',{studentsEnrolled : studentsEnrolled, 
-                                            cwkInfo : cwkInfo });
+            //Check if any student has already been marked
+            studentsEnrolled.forEach(function(student){
+                Coursework.isStudentMarked(student['id'], cwkInfo['id'],function(result){
+                    if(result){
+                        data.push({
+                            studentID : student['id'],
+                            isMarked : true,
+                            rawMark : result['RawMark']
+                        });
+                    }else{
+                        data.push({
+                            studentID : student['id'],
+                            isMarked : false,
+                        });
+                    }
+
+                    if(student == studentsEnrolled[studentsEnrolled.length-1]){
+                        res.render('academicstaff_coursework_mark',{data:data,
+                                cwkInfo : cwkInfo }); 
+                    }
+                })
+            });
         });
     });
 });
@@ -232,8 +254,24 @@ router.post('/academicstaff/coursework/mark/choosecoursework', function(req,res)
 Route for submitting a mark to database
 */
 router.post('/academicstaff/coursework/mark/submit/:StudentID/:CourseworkID',function(req,res){
+    //Add mark to the database if it's not empty
     Coursework.addMark(req.params['CourseworkID'], req.params['StudentID'], req.body['RawMark'],function(){
-        console.log("Database updated!");
+        Coursework.getCourseworkById(req.params['CourseworkID'], function(ModuleCode, CourseworkNumber){
+            res.redirect("/academicstaff/coursework/mark/"+ModuleCode+"/"+CourseworkNumber);
+        });
+    });
+})
+
+/*
+Route for removing a mark from database
+*/
+router.get('/academicstaff/coursework/mark/remove/:StudentID/:CourseworkID',function(req,res){
+
+    //Remove mark from the database
+    Coursework.removeMark(req.params['CourseworkID'], req.params['StudentID'],function(){
+        Coursework.getCourseworkById(req.params['CourseworkID'], function(ModuleCode, CourseworkNumber){
+            res.redirect("/academicstaff/coursework/mark/"+ModuleCode+"/"+CourseworkNumber);
+        })
     })
 })
 

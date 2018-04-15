@@ -23,10 +23,10 @@
 
             	<%if (!row.IsApproved) {%>
             	<% approvePath = '/academicstaff/coursework/approve/' + row.ID%>
-            	<a class="btn btn-default btn-approve" href=<%=approvePath%> >Approve</a>
+            	<a class="btn btn-default btn-green" href=<%=approvePath%> >Approve</a>
             	<%}else{ %>
             	<% disapprovePath = '/academicstaff/coursework/disapprove/' + row.ID%>
-            	<a class="btn btn-default btn-disapprove" href=<%=disapprovePath%> >Disapprove</a>
+            	<a class="btn btn-default btn-red" href=<%=disapprovePath%> >Disapprove</a>
             	<%}%>
             </td> 
             <td> 
