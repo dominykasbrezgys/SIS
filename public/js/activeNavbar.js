@@ -21,24 +21,24 @@ $(document).ready(function() {
         $('#navCoursework').addClass('active').addClass('text-red');
     }
 
-    if (pathname == '/academicstaff/exams/add') {
+    if (pathname.includes('/academicstaff/exams/')){
         $('#navExams').addClass('active').addClass('text-red');
     }
 
     //Paths for student pages
-    if (pathname == '/student/home'){
+    if (pathname.includes('/student/home')){
         $('#navHome').addClass('active').addClass('text-green');
     }
 
-    if (pathname == '/student/modules'){
+    if (pathname.includes('/student/modules')){
         $('#navModules').addClass('active').addClass('text-green');
     }
 
-    if (pathname == '/student/coursework'){
+    if (pathname.includes('/student/coursework')){
         $('#navCoursework').addClass('active').addClass('text-green');
     }
 
-    if (pathname == '/student/exams'){
+    if (pathname.includes('/student/exams')){
         $('#navExams').addClass('active').addClass('text-green');
     }
 

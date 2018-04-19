@@ -54,7 +54,7 @@ router.post('/academicstaff/exams/upload', function(req, res) {
 
 /*
 Route for a user to display all exams assessed and download a 
-corresponding Coursework file
+corresponding exam file
 */
 router.get('/academicstaff/exams/assess', function(req,res){
     username = req.session.user;
@@ -88,18 +88,18 @@ router.get('/academicstaff/exams/assess', function(req,res){
             		res.render('academicstaff_exams_assess',{data:data});
             	}
 
-                // coursework.forEach(function(cwk){
+                // exam.forEach(function(cwk){
                 //     data.push({
                 //         ID : cwk['id'],
                 //         ModuleCode : module['ModuleCode'],
-                //         CourseworkNumber : cwk['CourseworkNumber'],
+                //         examNumber : cwk['examNumber'],
                 //         FileName : cwk['FileName'],
                 //         IsApproved : cwk['IsApproved']
                 //     });
-                //     //Render page when data is complete (reached the end of checking all modules and all coursework)
+                //     //Render page when data is complete (reached the end of checking all modules and all exam)
                 //     if(module == modules[modules.length-1] &&
-                //         cwk == coursework[coursework.length-1]){
-                //         res.render('academicstaff_coursework_assess',{data:data});
+                //         cwk == exam[exam.length-1]){
+                //         res.render('academicstaff_exam_assess',{data:data});
                 //     }
                 // });
             });
@@ -144,16 +144,16 @@ router.get('/academicstaff/exams/mark', function(req,res){
     //Get all modules taught by the user
     Teaching.getModulesTaughtBy(username,function(modules){
 
-        //If no modules taught - there will be no coursework to mark, hence render the page
+        //If no modules taught - there will be no exams to mark, hence render the page
         if(modules.length == 0){
             res.render('academicstaff_exams_mark_choose')
         }
         modules.forEach(function(module){
-            //Retrieve coursework of each module
-
+            //Retrieve exam of each module and compose data for page rendering (if module contains an exam)
             Exam.getExamOf(module['ModuleCode'],function(exam){
-            	moduleCodes.push({ModuleCode:exam['ModuleCode']});
-
+                if(exam){
+            	   moduleCodes.push({ModuleCode:exam['ModuleCode']});
+                }
 	            if(module == modules[modules.length-1]){
 	            	res.render('academicstaff_exams_mark_choose',{moduleCodes:moduleCodes})
 	            }
@@ -187,11 +187,10 @@ router.get('/academicstaff/exams/mark/:ModuleCode', function(req,res){
 
     //Get all students that are currently enrolled on the module
     Enrolment.getCurrentEnrollments(req.params['ModuleCode'],yearOfStudy, function(studentsEnrolled){
-        //Get information needed for page rendering (ExamID in the database and Max mark of that coursework)
+        //Get information needed for page rendering (ExamID in the database and Max mark of that exam)
         Exam.getExamIdAndMaxMark(req.params['ModuleCode'], function(examInfo){
             //Check if any student has already been marked
             studentsEnrolled.forEach(function(student){
-
                 Exam.isStudentMarked(student['id'], examInfo['id'],function(result){
                     if(result){
                         data.push({
@@ -205,7 +204,6 @@ router.get('/academicstaff/exams/mark/:ModuleCode', function(req,res){
                             isMarked : false,
                         });
                     }
-
                     if(student == studentsEnrolled[studentsEnrolled.length-1]){
                         res.render('academicstaff_exams_mark',{data:data,
                                 examInfo : examInfo }); 

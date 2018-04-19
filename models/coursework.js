@@ -21,7 +21,7 @@ exports.addCoursework = function(coursework,callback) {
 };
 
 exports.getCourseworkOf = function(module,callback) {
-	sql = "SELECT id, ModuleCode, CourseworkNumber, FileName, IsApproved FROM Coursework "+
+	sql = "SELECT id, ModuleCode, CourseworkNumber, SetDate, DueDate, ReturnDate ,FileName, IsApproved FROM Coursework "+
 		"WHERE ModuleCode= '"+module+"'";
 	con.query(sql, function(err, result) {
 		if (err) throw err;
@@ -94,13 +94,45 @@ exports.isStudentMarked = function(StudentID, CourseworkID ,callback) {
     });
 };
 
-exports.getCourseworkById = function(id,callback) {
+exports.getCourseworkModuleCodeAndNumber = function(courseworkID,callback) {
 	sql = "SELECT ModuleCode, CourseworkNumber FROM Coursework "+
-		"WHERE id= '"+id+"'";
+		"WHERE id= '"+courseworkID+"'";
 	con.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result[0]['ModuleCode'], result[0]['CourseworkNumber']);
     });
 };
+
+exports.getCourseworkOfCurrentYear = function(moduleCode,yearOfStudy,callback) {
+	sql = "SELECT id, ModuleCode, CourseworkNumber, SetDate, DueDate, ReturnDate ,FileName, IsApproved"+
+		" FROM Coursework"+
+		" WHERE ModuleCode= '"+moduleCode+"'"+
+		" AND (YEAR(SetDate)='"+yearOfStudy+"'"+
+		" OR YEAR(SetDate)='"+(yearOfStudy+1)+"')";
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result);
+    });
+};
+
+exports.getCourseworkMark = function(studentID,courseworkID,callback){
+	sql = "SELECT RawMark"+
+		" FROM CourseworkMark"+
+		" WHERE CourseworkID= '"+courseworkID+"'"+
+		" AND StudentID='"+studentID+"'";
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result[0]);
+    });
+}
+
+exports.getCourseworkById = function(courseworkID,callback){
+	sql = "SELECT * FROM Coursework "+
+		"WHERE id= '"+courseworkID+"'";
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result[0]);
+    });
+}
 
 

@@ -31,3 +31,19 @@ exports.getCurrentEnrollments = function(ModuleCode,CurrentYear,callback) {
 		callback(result);
     });
 };
+
+exports.getCurrentlyEnrolledModules = function(StudentID,CurrentYear,Semester,callback) {
+
+	sql = "SELECT Enrolment.ModuleCode FROM Enrolment"+
+		" INNER JOIN Module"+
+		" ON Enrolment.ModuleCode = Module.ModuleCode"+
+		" WHERE Enrolment.StudentID="+StudentID+
+		" AND Enrolment.YearTaken='"+CurrentYear+"'"+
+		" AND (Module.Semester='"+Semester+"'" +
+		" OR Module.Semester = '1/2')";
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+
+		callback(result);
+    });
+};

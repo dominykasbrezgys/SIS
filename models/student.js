@@ -32,3 +32,11 @@ exports.getAll = function(callback) {
 		callback(result);
     });
 };
+
+exports.getIdByUsername = function(username, callback){
+	sql = "SELECT id FROM Student WHERE username= '" +username+"'";
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result[0]);
+    });
+}

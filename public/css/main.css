@@ -112,6 +112,11 @@ Tables Styling
 
 }
 
+.table.table-student th{
+  background: #6B8E23 ;
+  color: white;
+}
+
 /*
 Styles for approve disaprove icons
 */
@@ -144,6 +149,22 @@ Styles for approve/disapprove coursework button
 .btn-red:hover {
   background: #e60000;
   color: white;
+}
+
+/*
+Styles for Coursework dates labels
+*/
+
+h5.cwk-setdate-header{
+  color: green;
+}
+
+h5.cwk-duedate-header{
+ color: red; 
+}
+
+h5.cwk-returndate-header{
+ color: blue; 
 }
 
 /*

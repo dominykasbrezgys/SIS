@@ -256,7 +256,7 @@ Route for submitting a mark to database
 router.post('/academicstaff/coursework/mark/submit/:StudentID/:CourseworkID',function(req,res){
     //Add mark to the database if it's not empty
     Coursework.addMark(req.params['CourseworkID'], req.params['StudentID'], req.body['RawMark'],function(){
-        Coursework.getCourseworkById(req.params['CourseworkID'], function(ModuleCode, CourseworkNumber){
+        Coursework.getCourseworkModuleCodeAndNumber(req.params['CourseworkID'], function(ModuleCode, CourseworkNumber){
             res.redirect("/academicstaff/coursework/mark/"+ModuleCode+"/"+CourseworkNumber);
         });
     });
@@ -269,7 +269,7 @@ router.get('/academicstaff/coursework/mark/remove/:StudentID/:CourseworkID',func
 
     //Remove mark from the database
     Coursework.removeMark(req.params['CourseworkID'], req.params['StudentID'],function(){
-        Coursework.getCourseworkById(req.params['CourseworkID'], function(ModuleCode, CourseworkNumber){
+        Coursework.getCourseworkModuleCodeAndNumber(req.params['CourseworkID'], function(ModuleCode, CourseworkNumber){
             res.redirect("/academicstaff/coursework/mark/"+ModuleCode+"/"+CourseworkNumber);
         })
     })

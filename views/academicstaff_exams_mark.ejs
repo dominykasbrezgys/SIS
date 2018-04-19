@@ -16,12 +16,10 @@
             <td> <%= student.studentID %> </td>
             <td> <%= examInfo.MaxMark %> </td>
             <td>
-
                <% if (student.isMarked) {%>
                   <%=student.rawMark %>
                   <a class="btn btn-default btn-red" href="/academicstaff/exams/mark/remove/<%=student.studentID %>/<%=examInfo.id%>">Cancel</a>
                <%}else {%>
-
                <form class="form-inline" method="POST" action="/academicstaff/exams/mark/submit/<%=student.studentID %>/<%=examInfo.id%>">
                   <div class="form-group">
                      <div class="col-sm-2">
