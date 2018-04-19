@@ -5,7 +5,7 @@
 		<table class="table table-striped table-hover table-student table-bordered">
       		<thead>
          		<tr>
-         			<th>Weighting</th>
+         			<th>Weighting %</th>
             		<th>Max Mark</th>
             		<th>Raw Mark</th>
             		<th>% Mark</th>
@@ -17,7 +17,7 @@
             	<td> <%= cwk['Weighting'] %> </td>
             	<td> <%= cwk['MaxMark'] %> </td>
             	<td> <%= mark['RawMark'] %> </td>
-            	<td> <%=  mark['RawMark']*100/cwk['MaxMark']%> </td>
+            	<td> <%= Math.round(mark['RawMark']*100/cwk['MaxMark'] *10) /10 %> </td>
             	<td> <%= Math.round((cwk['Weighting'] *(mark['RawMark']*100/cwk['MaxMark']/100)) * 10) / 10%> </td>
          	</tr>
       		</tbody>
@@ -27,6 +27,3 @@
 	<%}%>
 </div>
 <% include partials/footer %>
-
-
-Math.round( number * 10 ) / 10;

@@ -103,3 +103,19 @@ exports.getExamById = function(id,callback) {
 		callback(result[0]['ModuleCode']);
     });
 };
+
+
+exports.getExamMarksInfo = function(StudentID, callback){
+	sql = "SELECT Module.ModuleCode, Module.ModuleName, Exam.MaxMark, Exam.Weighting, ExamMark.RawMark"+
+		" FROM Module"+
+		" INNER JOIN Exam ON Module.ModuleCode=Exam.ModuleCode"+
+		" INNER JOIN ExamMark ON Exam.id = ExamMark.ExamID"+
+		" WHERE ExamMark.StudentID="+StudentID;
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result);
+    });
+
+};
+
+

@@ -47,3 +47,14 @@ exports.getCurrentlyEnrolledModules = function(StudentID,CurrentYear,Semester,ca
 		callback(result);
     });
 };
+
+exports.getLevel = function(moduleCode, studentID,callback){
+	sql = "SELECT LevelOfStudy FROM Enrolment"+
+	" WHERE StudentID= '" +studentID+"'"+
+	" AND ModuleCode='"+moduleCode+"'";
+	con.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result[0]['LevelOfStudy']);
+    });
+}
+
