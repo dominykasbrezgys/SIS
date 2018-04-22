@@ -1,3 +1,16 @@
+.border{
+  border-style: solid;
+  border-width: 1px;
+}
+
+.black-bg{
+  background: black;
+}
+
+h1.faculty-name-header{
+  font-weight: bold;
+}
+
 
 /*
 General Styling
