@@ -23,7 +23,7 @@ router.use(require('./academicstaff/exams'));
 
 router.get('/', function(req, res) {
 	if (req.session.user){
-		res.redirect('/home');
+		res.redirect('/'+req.session.type+'/home');
 	}
 	else {
 	res.render('index');
@@ -42,7 +42,7 @@ router.post('/login', function(req, res) {
     	else if ( username == result[0]['Username'] && password == result[0]['Password']){
     		req.session.user = result[0]['Username'];
     		req.session.type = result[0]['Type'];
-    		res.redirect('home');
+    		res.redirect('/'+req.session.type+'/home');
     	}
     	else{
     		res.redirect('/');
@@ -50,18 +50,13 @@ router.post('/login', function(req, res) {
     });
 });
 
-router.get('/home', function(req, res) {
-    if(req.session.type == 'student'){
-    	res.redirect("/student/home");
-    }
-    else if(req.session.type == 'academicstaff'){
-    	res.redirect("/academicstaff/home");
-    }
-});
-
 router.get('/logout', function(req, res) {
     req.session.destroy();
     res.redirect('/');
+});
+
+router.get('*', function(req, res){
+  res.status(404).send('404 - Page not found');
 });
 
 module.exports = router;
