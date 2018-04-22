@@ -33,7 +33,7 @@ router.post('/academicstaff/coursework/uploadcwk', function(req, res) {
     var fileName = req.body['ModuleCode'] + '_' + req.body['CwkNumber'] +'('+today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+')'+'.pdf';
 
     //Use the mv() method to place the file on the server
-    cwk.mv(process.cwd() + '/Courseworks/' + fileName, function(err) {
+    cwk.mv(process.cwd() + '/server_files/Courseworks/' + fileName, function(err) {
         if (err) {
             console.log(err);
         } else {
@@ -116,7 +116,7 @@ router.get('/academicstaff/coursework/assess', function(req,res){
 Route for downloading a coursework file
 */
 router.get('/academicstaff/coursework/download/:filename', function(req,res){
-    var file = process.cwd() + '/Courseworks/'+req.params['filename'];
+    var file = process.cwd() + '/server_files/Courseworks/'+req.params['filename'];
     res.download(file);
 });
 

@@ -33,7 +33,7 @@ router.post('/academicstaff/exams/upload', function(req, res) {
     var fileName = req.body['ModuleCode'] +'('+today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+')'+'.pdf';
 
     //Use the mv() method to place the file on the server
-    examFile.mv(process.cwd() + '/Exams/' + fileName, function(err) {
+    examFile.mv(process.cwd() + '/server_files/Exams/' + fileName, function(err) {
         if (err) {
             console.log(err);
         } else {
@@ -87,21 +87,6 @@ router.get('/academicstaff/exams/assess', function(req,res){
             	if(module == modules[modules.length-1]){
             		res.render('academicstaff_exams_assess',{data:data});
             	}
-
-                // exam.forEach(function(cwk){
-                //     data.push({
-                //         ID : cwk['id'],
-                //         ModuleCode : module['ModuleCode'],
-                //         examNumber : cwk['examNumber'],
-                //         FileName : cwk['FileName'],
-                //         IsApproved : cwk['IsApproved']
-                //     });
-                //     //Render page when data is complete (reached the end of checking all modules and all exam)
-                //     if(module == modules[modules.length-1] &&
-                //         cwk == exam[exam.length-1]){
-                //         res.render('academicstaff_exam_assess',{data:data});
-                //     }
-                // });
             });
         });
     });
