@@ -19,7 +19,11 @@ exports.getByUsername = function(username, callback) {
 };
 
 exports.getPersonalTutees = function(id, callback) {
-	sql = "SELECT * FROM Student WHERE PersonalTutorID= "+id;
+	sql = "SELECT Student.id , Student.FirstName, Student.LastName, Student.Username, Course.Qualification, Course.CourseName"+
+	" FROM Student"+
+	" INNER JOIN Course"+
+	" ON Student.CourseID= Course.id"+
+	" WHERE Student.PersonalTutorID='"+id+"'";
 	con.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result);

@@ -27,7 +27,11 @@ exports.getPersonalTutor = function(id, callback) {
 };
 
 exports.getAll = function(callback) {
-	con.query("SELECT * FROM Student", function(err, result) {
+	sql = "SELECT Student.id , Student.FirstName, Student.LastName, Student.Username, Course.Qualification, Course.CourseName"+
+		" FROM Student"+
+		" INNER JOIN Course"+
+		" ON Student.CourseID= Course.id";
+	con.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result);
     });

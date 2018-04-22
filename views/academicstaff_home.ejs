@@ -1,18 +1,64 @@
 <% include partials/academicstaff_header %>
 <div class="container">
-	<h1>Personal Details </h1>
-	<p>Username: <%= academicstaff['Username']%></p>
-	<p>First name: <%= academicstaff['FirstName']%></p>
-	<p>Last name: <%= academicstaff['LastName']%></p>
-	<p>Email: <%= academicstaff['Email']%></p>
-	<h2>Personal tutees</h2>
-	<% personal_tutees.forEach(function(tutee) { %>
-	<p> <%= tutee['FirstName']%> <%= tutee['LastName']%> </p>
-	<% }); %>
-	<h2>All students</h2>
+   <h1>Personal Details </h1>
+   <h4> <b>Username:</b> <%= academicstaff['Username']%> </h4>
+   <h4> <b>First name:</b> <%= academicstaff['FirstName']%> </h4>
+   <h4> <b>Last name:</b> <%= academicstaff['LastName']%> </h4>
+   <h4> <b>Email:</b> <%= academicstaff['Email']%> </h4>
+   <h1>Personal tutees</h1>
 
-	<% for (var i = 0; i < students.length; i++) { -%>
-		<p><%= students[i]['FirstName']%> <%= students[i]['LastName']%> [<%= students[i]['Username']%>] </p>
-	<% } -%>
+   <table class="table table-striped table-hover table-staff table-bordered">
+      <thead>
+         <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Student ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Course</th>
+         </tr>
+      </thead>
+      <tbody>
+         <% personal_tutees.forEach(function(tutee){ %>
+         <tr>
+            <td> <%= tutee['FirstName'] %> </td>
+            <td> <%= tutee['LastName'] %> </td> 
+            <td> <%= tutee['id'] %> </td>
+            <td> <%= tutee['Username'] %> </td>
+            <td> <%= tutee['Username'] %>@leeds.ac.uk </td>
+            <td> <%= tutee['Qualification']%>, <%=tutee ['CourseName']%> </td>
+         </tr>
+         <% });%>
+      </tbody>
+   </table>
+
+   <h1>All students</h1>
+
+   <table class="table table-striped table-hover table-staff table-bordered">
+      <thead>
+         <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Student ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Course</th>
+         </tr>
+      </thead>
+      <tbody>
+         <% students.forEach(function(student){ %>
+         <tr>
+            <td> <%= student['FirstName'] %> </td>
+            <td> <%= student['LastName'] %> </td> 
+            <td> <%= student['id'] %> </td>
+            <td> <%= student['Username'] %> </td>
+            <td> <%= student['Username'] %>@leeds.ac.uk </td>
+            <td> <%= student['Qualification']%>, <%=student ['CourseName']%> </td>
+         </tr>
+         <% });%>
+      </tbody>
+   </table>
+
+
 </div>
 <% include partials/footer %>
