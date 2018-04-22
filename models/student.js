@@ -1,18 +1,15 @@
 /*
-MODEL FOR STUDENT TABLE
-*/
-var mysql = require('mysql');
 
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "password123",
-    database: "SISdb"
-});
+MODEL FOR STUDENT TABLE
+
+*/
+
+//A reusable database wrapper
+var db = require('./SISdb');
 
 exports.getByUsername = function(username, callback) {
 	sql = "SELECT * FROM Student WHERE username= '" +username+"'";
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result[0]);
     });
@@ -20,7 +17,7 @@ exports.getByUsername = function(username, callback) {
 
 exports.getPersonalTutor = function(id, callback) {
 	sql = "SELECT * FROM AcademicStaff WHERE id= " +id;
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result[0]);
     });
@@ -31,7 +28,7 @@ exports.getAll = function(callback) {
 		" FROM Student"+
 		" INNER JOIN Course"+
 		" ON Student.CourseID= Course.id";
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result);
     });
@@ -39,7 +36,7 @@ exports.getAll = function(callback) {
 
 exports.getIdByUsername = function(username, callback){
 	sql = "SELECT id FROM Student WHERE username= '" +username+"'";
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result[0]);
     });

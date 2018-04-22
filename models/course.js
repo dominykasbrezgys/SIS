@@ -1,18 +1,15 @@
 /*
-MODEL FOR COURSE TABLE
-*/
-var mysql = require('mysql');
 
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "password123",
-    database: "SISdb"
-});
+MODEL FOR COURSE TABLE
+
+*/
+
+//A reusable database wrapper
+var db = require('./SISdb');
 
 exports.getById = function(id, callback) {
 	sql = "SELECT * FROM Course WHERE id= '" +id+"'";
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result[0]);
     });
@@ -20,7 +17,7 @@ exports.getById = function(id, callback) {
 
 exports.getDuration = function(id, callback) {
 	sql = "SELECT Duration FROM Course WHERE id= '" +id+"'";
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result[0]);
     });

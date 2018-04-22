@@ -1,14 +1,11 @@
 /*
-MODEL FOR Assessing table
-*/
-var mysql = require('mysql');
 
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "password123",
-    database: "SISdb"
-});
+MODEL FOR Assessing table
+
+*/
+
+//A reusable database wrapper
+var db = require('./SISdb');
 
 exports.getModulesAssessedBy = function(username, callback){
 	sql = "SELECT Assessing.ModuleCode"+
@@ -16,7 +13,7 @@ exports.getModulesAssessedBy = function(username, callback){
 		" INNER JOIN AcademicStaff"+
 		" ON AcademicStaff.id = Assessing.AcademicStaffID"+
 		" WHERE AcademicStaff.Username= '"+username+"'";
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result);
     });

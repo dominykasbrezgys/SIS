@@ -1,20 +1,17 @@
 /*
-MODEL FOR Coursework managing
-*/
-var mysql = require('mysql');
 
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "password123",
-    database: "SISdb"
-});
+MODEL FOR Coursework managing
+
+*/
+
+//A reusable database wrapper
+var db = require('./SISdb');
 
 exports.addCoursework = function(coursework,callback) {
 	sql = "INSERT INTO Coursework "+
 	"(ModuleCode, CourseworkNumber, SetDate, DueDate, ReturnDate, Weighting, MaxMark, Notes, FileName) "+
 	"VALUES ?";
-	con.query(sql,[coursework], function(err, result) {
+	db.query(sql,[coursework], function(err, result) {
 		if (err) throw err;
 		callback();
     });
@@ -23,7 +20,7 @@ exports.addCoursework = function(coursework,callback) {
 exports.getCourseworkOf = function(module,callback) {
 	sql = "SELECT id, ModuleCode, CourseworkNumber, SetDate, DueDate, ReturnDate ,FileName, IsApproved FROM Coursework "+
 		"WHERE ModuleCode= '"+module+"'";
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result);
     });
@@ -33,7 +30,7 @@ exports.approveCourseworkById = function(id,callback) {
 	sql = "UPDATE Coursework "+
 		"SET IsApproved = 1 "+
 		"WHERE id ="+id;
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback();
     });
@@ -43,7 +40,7 @@ exports.disapproveCourseworkById = function(id,callback) {
 	sql = "UPDATE Coursework "+
 		"SET IsApproved = 0 "+
 		"WHERE id ="+id;
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback();
     });
@@ -54,7 +51,7 @@ exports.getCwkIdAndMaxMark = function(ModuleCode, CourseworkNumber ,callback) {
 		"FROM Coursework "+
 		"WHERE ModuleCode='"+ModuleCode+"' "+
 		"AND CourseworkNumber="+CourseworkNumber;
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result[0]);
     });
@@ -67,7 +64,7 @@ exports.addMark = function(CourseworkID, StudentID, RawMark, callback) {
 	}
 	sql = "INSERT INTO CourseworkMark (CourseworkID, StudentID, RawMark) "+
 		"VALUES ("+CourseworkID+","+StudentID+","+RawMark+")";
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback();
     });
@@ -77,7 +74,7 @@ exports.removeMark = function(CourseworkID, StudentID,callback){
 	sql = "DELETE FROM CourseworkMark "+
 		"WHERE CourseworkID = "+CourseworkID+
 		" AND StudentID = "+StudentID;;
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback();
     });
@@ -88,7 +85,7 @@ exports.isStudentMarked = function(StudentID, CourseworkID ,callback) {
 		"FROM CourseworkMark "+
 		"WHERE StudentID='"+StudentID+"' "+
 		"AND CourseworkID="+CourseworkID;
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result[0]);
     });
@@ -97,7 +94,7 @@ exports.isStudentMarked = function(StudentID, CourseworkID ,callback) {
 exports.getCourseworkModuleCodeAndNumber = function(courseworkID,callback) {
 	sql = "SELECT ModuleCode, CourseworkNumber FROM Coursework "+
 		"WHERE id= '"+courseworkID+"'";
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result[0]['ModuleCode'], result[0]['CourseworkNumber']);
     });
@@ -109,7 +106,7 @@ exports.getCourseworkOfCurrentYear = function(moduleCode,yearOfStudy,callback) {
 		" WHERE ModuleCode= '"+moduleCode+"'"+
 		" AND (YEAR(SetDate)='"+yearOfStudy+"'"+
 		" OR YEAR(SetDate)='"+(yearOfStudy+1)+"')";
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result);
     });
@@ -120,7 +117,7 @@ exports.getCourseworkMark = function(studentID,courseworkID,callback){
 		" FROM CourseworkMark"+
 		" WHERE CourseworkID= '"+courseworkID+"'"+
 		" AND StudentID='"+studentID+"'";
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result[0]);
     });
@@ -129,7 +126,7 @@ exports.getCourseworkMark = function(studentID,courseworkID,callback){
 exports.getCourseworkById = function(courseworkID,callback){
 	sql = "SELECT * FROM Coursework "+
 		"WHERE id= '"+courseworkID+"'";
-	con.query(sql, function(err, result) {
+	db.query(sql, function(err, result) {
 		if (err) throw err;
 		callback(result[0]);
     });
