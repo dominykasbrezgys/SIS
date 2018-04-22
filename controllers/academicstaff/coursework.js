@@ -15,12 +15,12 @@ Route to display a form for adding a coursework
 */
 router.get('/academicstaff/coursework/add', function(req, res) {
     username = req.session.user;
+
     Module.getModulesTaughtByUsername(username, function(modulesTaught) {
         res.render('academicstaff_coursework_add', {
             modules: modulesTaught
         });
     });
-
 });
 
 /*
@@ -28,37 +28,68 @@ Route for add coursework post request
 */
 router.post('/academicstaff/coursework/uploadcwk', function(req, res) {
     var cwk = req.files.CwkFile;
-
     var today = new Date();
+    //This flag is needed because node.js continues code execution after the page is redirected
+    var hasBeenRedirected = false;
+    var setDate = req.body['SetDate'].split("/");
+    var dueDate = req.body['DueDate'].split("/");
+    var returnDate = req.body['ReturnDate'].split("/");
     var fileName = req.body['ModuleCode'] + '_' + req.body['CwkNumber'] +'('+today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+')'+'.pdf';
 
-    //Use the mv() method to place the file on the server
-    cwk.mv(process.cwd() + '/server_files/Courseworks/' + fileName, function(err) {
-        if (err) {
-            console.log(err);
-        } else {
-        	//If file successfuly uploaded to server - add Coursework to the database
-            setDate = req.body['SetDate'].split("/");
-            dueDate = req.body['DueDate'].split("/");
-            returnDate = req.body['ReturnDate'].split("/");
-        	coursework = [[
-        		req.body['ModuleCode'],
-        		Number(req.body['CwkNumber']),
-                setDate[2]+"-"+setDate[1]+"-"+setDate[0],
-                dueDate[2]+"-"+dueDate[1]+"-"+dueDate[0],
-                returnDate[2]+"-"+returnDate[1]+"-"+returnDate[0],
-                Number(req.body['CwkWeighting']),
-        		Number(req.body['MaxMark']),
-        		req.body['Notes'],
-                fileName
-        	]];
-        	Coursework.addCoursework(coursework,function(){
-                console.log("Database updated!");
-        	});
-            console.log("Coursework uploaded!");
-        }
+    //Check for deadline clashes
+    Coursework.getCurrentDeadlines(today.getFullYear(),function(deadlines){
+        deadlines.forEach(function(deadline){
+            if ( dueDate[2] == deadline['DueDate'].getFullYear() && 
+                dueDate[1] == deadline['DueDate'].getMonth()+1 &&
+                dueDate[0] == deadline['DueDate'].getDate()){
+                dateToRedirect = deadline['DueDate'].getDate()+' - '+(deadline['DueDate'].getMonth()+1)+' - '+deadline['DueDate'].getFullYear();
+                if (!hasBeenRedirected){
+                    res.redirect('/academicstaff/coursework/invalidDeadline/'+dateToRedirect);
+                    hasBeenRedirected = true;
+                }
+            } else if (deadline == deadlines[deadlines.length-1]){
+                //If no clashing deadlines found:
+                //Use the mv() method to place the file in the server_files folder
+                cwk.mv(process.cwd() + '/server_files/Coursework/' + fileName, function(err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        //If file successfuly uploaded to server - add Coursework to the database
+                        coursework = [[
+                            req.body['ModuleCode'],
+                            Number(req.body['CwkNumber']),
+                            setDate[2]+"-"+setDate[1]+"-"+setDate[0],
+                            dueDate[2]+"-"+dueDate[1]+"-"+dueDate[0],
+                            returnDate[2]+"-"+returnDate[1]+"-"+returnDate[0],
+                            Number(req.body['CwkWeighting']),
+                            Number(req.body['MaxMark']),
+                            req.body['Notes'],
+                            fileName
+                        ]];
+                        Coursework.addCoursework(coursework,function(){
+                            console.log("Database updated!");
+                            res.redirect('/academicstaff/coursework/successfullyAdded');
+                        });
+                        console.log("Coursework uploaded!");
+                    }
+                });
+            }
+        });
     });
-    res.redirect('/academicstaff/coursework/add');
+});
+
+/*
+Route for invalid deadline entered
+*/
+router.get('/academicstaff/coursework/invalidDeadline/:date', function(req,res){
+    res.render("academicstaff_coursework_invalid_deadline",{dueDate: req.params['date']});
+});
+
+/*
+Route for successfully added coursework
+*/
+router.get('/academicstaff/coursework/successfullyAdded', function(req,res){
+    res.render("academicstaff_coursework_successfully_added");
 });
 
 /*
@@ -116,7 +147,7 @@ router.get('/academicstaff/coursework/assess', function(req,res){
 Route for downloading a coursework file
 */
 router.get('/academicstaff/coursework/download/:filename', function(req,res){
-    var file = process.cwd() + '/server_files/Courseworks/'+req.params['filename'];
+    var file = process.cwd() + '/server_files/Coursework/'+req.params['filename'];
     res.download(file);
 });
 

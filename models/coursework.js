@@ -132,4 +132,14 @@ exports.getCourseworkById = function(courseworkID,callback){
     });
 }
 
+exports.getCurrentDeadlines = function(currentYear,callback){
+	sql = "SELECT DueDate FROM Coursework "+
+		"WHERE YEAR(DueDate)= '"+currentYear+"'";
+	db.query(sql, function(err, result) {
+		if (err) throw err;
+		callback(result);
+    });
+}
+
+
 
