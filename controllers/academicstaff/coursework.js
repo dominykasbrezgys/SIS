@@ -2,6 +2,7 @@
 /*
 CONTROLLER - COURSEWORK MANAGEMENT
 */
+
 var express = require('express')
     ,router = express.Router()
     ,Coursework = require('../../models/coursework')
@@ -47,7 +48,7 @@ router.post('/academicstaff/coursework/uploadcwk', function(req, res) {
                     res.redirect('/academicstaff/coursework/invalidDeadline/'+dateToRedirect);
                     hasBeenRedirected = true;
                 }
-            } else if (deadline == deadlines[deadlines.length-1]){
+            } else if (deadline == deadlines[deadlines.length-1] && !hasBeenRedirected){
                 //If no clashing deadlines found:
                 //Use the mv() method to place the file in the server_files folder
                 cwk.mv(process.cwd() + '/server_files/Coursework/' + fileName, function(err) {

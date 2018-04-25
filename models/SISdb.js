@@ -1,3 +1,8 @@
+/*
+This is a reusable wrapper of the connection with the MySQL server,
+which is shared within the Model layer of this application.
+*/
+
 var mysql = require('mysql');
 
 var con = mysql.createConnection({

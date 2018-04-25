@@ -15,13 +15,16 @@ Route to display a form for adding exam paper
 router.get('/academicstaff/exams/add', function(req, res) {
     username = req.session.user;
     Module.getModulesTaughtByUsername(username, function(modulesTaught) {
-        res.render('academicstaff_exams_add', {
-            modules: modulesTaught
-        });
+        res.render('academicstaff_exams_add', {modules: modulesTaught});
     });
-
 });
 
+/*
+Route to display a success message after adding an exam
+*/
+router.get('/academicstaff/exams/add/success', function(req, res) {
+    res.render('academicstaff_exams_add_success');
+});
 
 /*
 Route for add exam post request
@@ -49,7 +52,7 @@ router.post('/academicstaff/exams/upload', function(req, res) {
         	});
         }
     });
-    res.redirect('/academicstaff/exams/add');
+    res.redirect('/academicstaff/exams/add/success');
 });
 
 /*
@@ -96,7 +99,7 @@ router.get('/academicstaff/exams/assess', function(req,res){
 Route for downloading an exam file
 */
 router.get('/academicstaff/exams/download/:filename', function(req,res){
-    var file = process.cwd() + '/Exams/'+req.params['filename'];
+    var file = process.cwd() + '/server_files/Exams/'+req.params['filename'];
     res.download(file);
 });
 

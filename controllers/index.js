@@ -1,7 +1,7 @@
 /*
 CONTROLLER
 index.js purpose is to load all other controllers and maybe define
-some paths which don’t have a common prefix like a home page route for example.
+some paths which don’t have a common prefix like a log in page route for example.
 */
 
 var express = require('express')

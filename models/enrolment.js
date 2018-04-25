@@ -7,6 +7,12 @@ MODEL FOR ENROLMENT TABLE
 //A reusable database wrapper
 var db = require('./SISdb');
 
+
+/**
+  * @desc Reads enrolment information of a particular student
+  * @param number - student id
+  * @param function - callback 
+*/
 exports.getByStudentID = function(studentID, callback) {
 	sql = "SELECT * FROM Enrolment "+
 		"WHERE StudentID= '" +studentID+"'";
@@ -16,6 +22,11 @@ exports.getByStudentID = function(studentID, callback) {
     });
 };
 
+/**
+  * @desc Reads Enrolments of a current year of study
+  * @param string - Module Code
+  * @param function - callback 
+*/
 exports.getCurrentEnrollments = function(ModuleCode,CurrentYear,callback) {
 
 	sql = "SELECT Student.id FROM Enrolment"+
@@ -29,6 +40,13 @@ exports.getCurrentEnrollments = function(ModuleCode,CurrentYear,callback) {
     });
 };
 
+/**
+  * @desc Reads Enrolments of a current year of study of a particular student
+  * @param number - student id
+  * @param string - current year
+  * @param string - semester
+  * @param function - callback 
+*/
 exports.getCurrentlyEnrolledModules = function(StudentID,CurrentYear,Semester,callback) {
 
 	sql = "SELECT Enrolment.ModuleCode FROM Enrolment"+
@@ -45,6 +63,12 @@ exports.getCurrentlyEnrolledModules = function(StudentID,CurrentYear,Semester,ca
     });
 };
 
+/**
+  * @desc Reads level of study of a student who is enrolled in a particular module
+  * @param string - Module Code
+  * @param number - student id
+  * @param function - callback 
+*/
 exports.getLevel = function(moduleCode, studentID,callback){
 	sql = "SELECT LevelOfStudy FROM Enrolment"+
 	" WHERE StudentID= '" +studentID+"'"+

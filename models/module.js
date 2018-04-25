@@ -7,6 +7,11 @@ MODEL FOR retrieving info about Modules
 //A reusable database wrapper
 var db = require('./SISdb');
 
+/**
+  * @desc Reads module information
+  * @param string - Module Code
+  * @param function - callback 
+*/
 exports.getByModuleCode = function(moduleCode, callback) {
 	sql = "SELECT * FROM Module WHERE ModuleCode= '" +moduleCode+"'";
 	db.query(sql, function(err, result) {
@@ -15,6 +20,10 @@ exports.getByModuleCode = function(moduleCode, callback) {
     });
 };
 
+/**
+  * @desc Reads all modules
+  * @param function - callback 
+*/
 exports.getAll = function(callback) {
 	sql = "SELECT * FROM Module";
 	db.query(sql, function(err, result) {
@@ -23,6 +32,11 @@ exports.getAll = function(callback) {
     });
 };
 
+/**
+  * @desc Reads academic staff, who teaches a particular module first and last names
+  * @param number - Module Code
+  * @param function - callback 
+*/
 exports.getTeachingStaff = function(moduleCode, callback) {
 	sql = "SELECT AcademicStaff.FirstName, AcademicStaff.LastName"+
 		" FROM AcademicStaff"+
@@ -35,6 +49,11 @@ exports.getTeachingStaff = function(moduleCode, callback) {
     });
 };
 
+/**
+  * @desc Reads academic staff, who assesses a particular module first and last names
+  * @param string - Module Code
+  * @param function - callback 
+*/
 exports.getAssessingStaff = function(moduleCode, callback) {
 	sql = "SELECT AcademicStaff.FirstName, AcademicStaff.LastName"+
 		" FROM AcademicStaff"+
@@ -47,6 +66,11 @@ exports.getAssessingStaff = function(moduleCode, callback) {
     });
 };
 
+/**
+  * @desc Reads modules assessed by a particular academic staff member
+  * @param string - academic staff username
+  * @param function - callback 
+*/
 exports.getModulesAssessedByUsername = function(staffUsername, callback) {
 
 	sql = "SELECT AcademicStaff.FirstName, AcademicStaff.LastName, Module.ModuleName, Module.ModuleCode, Module.NumberOfCredits"+
@@ -63,6 +87,11 @@ exports.getModulesAssessedByUsername = function(staffUsername, callback) {
     });
 };
 
+/**
+  * @desc Reads modules taught by a particular academic staff member
+  * @param string - academic staff username
+  * @param function - callback 
+*/
 exports.getModulesTaughtByUsername = function(staffUsername, callback) {
 
 	sql = "SELECT AcademicStaff.FirstName, AcademicStaff.LastName, Module.ModuleName, Module.ModuleCode, Module.NumberOfCredits"+
