@@ -1,7 +1,6 @@
 
 var mysql = require('mysql');
 var bodyParser = require("body-parser");
-//var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var fileUpload = require('express-fileupload');
 
@@ -31,3 +30,4 @@ app.use(require('./controllers'));
 app.listen(3000, 'localhost', function() {
     console.log("Server is running...")
 });
+
