@@ -31,3 +31,5 @@ app.listen(3000, 'localhost', function() {
     console.log("Server is running...")
 });
 
+//Used for testing
+module.exports = app;
