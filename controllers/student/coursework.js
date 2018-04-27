@@ -37,8 +37,9 @@ router.get('/student/coursework/:semester', function(req, res) {
 					//If no coursework on the last module - render page
 					if((coursework.length) == 0 &&
 						(module == modules[modules.length-1])){
-						res.render("student_coursework",{data:data});
-						return;
+						SemesterWeek.getWeeksByYearOfStudy(yearOfStudy,req.params['semester'],function(weeks){
+							res.render("student_coursework",{data:data, weeks:weeks, today:today, studentID: StudentID['id'] });
+						});	
 					}
 					coursework.forEach(function(cwk){
 						data.push({
