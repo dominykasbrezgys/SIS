@@ -16,7 +16,7 @@ describe('Database CRUD tests', function() {
                 " VALUES ('firstname.lastname','firstname','lastname','firstname@lastname.com')";
             db.query(sql, function(err, result) {
             	if (err) throw err;
-                expect(err).to.be.a('null');
+                expect(result.affectedRows).equal(1);
                 done();
             });
         });
@@ -41,7 +41,7 @@ describe('Database CRUD tests', function() {
             		" WHERE id="+id;
             	db.query(sql, function(err, result) {
             		if (err) throw err;
-                	expect(err).to.be.a('null');
+                	expect(result.affectedRows).equal(1);
                	 	done();
             	});
             });
