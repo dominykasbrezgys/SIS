@@ -14,7 +14,7 @@ const studentCredentials = {
 
 var authenticatedUser = request.agent(app);
 
-describe('Routes test', function() {
+describe('Endpoints test', function() {
 
 	describe('Redirect if not logged in',function(){
 		it('/academicstaff/home', function(done) {
