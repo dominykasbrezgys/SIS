@@ -4,11 +4,11 @@ var request = require('supertest');
 
 
 const academicstaffCredentials = {
-  username: 'jordan.hills', 
+  username: 'scottie.miller', 
   password: 'pass'
 }
 const studentCredentials = {
-  username: 'ai17ki', 
+  username: 'ma16ra', 
   password: 'pass'
 }
 

@@ -14,7 +14,7 @@ var db = require('./SISdb');
 */
 exports.getModulesTaughtBy = function(username, callback){
 	sql = "SELECT Teaching.ModuleCode"+
-		" FROM teaching"+
+		" FROM Teaching"+
 		" INNER JOIN AcademicStaff"+
 		" ON AcademicStaff.id = Teaching.AcademicStaffID"+
 		" WHERE AcademicStaff.Username= '"+username+"'";
