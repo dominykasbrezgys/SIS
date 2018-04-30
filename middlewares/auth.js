@@ -1,8 +1,11 @@
 /*
-MIDDLEWARE
+MIDDLEWARE that is executed before every request
 */
 
-//If user is logged in proceed with the request
+
+/*
+If user is logged in proceed with the request
+*/
 module.exports = function(req,res,next){
 
 	if ((req.path == "/") || 
@@ -12,6 +15,7 @@ module.exports = function(req,res,next){
 	}
 	else{
 		if (req.session.user){
+			//Disallow students to access academicstaff routes and vice versa
 			if (req.session.type == 'academicstaff' && 
 				req.path.includes('/academicstaff/')){
 				next();

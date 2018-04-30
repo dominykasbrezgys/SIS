@@ -6,7 +6,9 @@ var express = require('express')
     ,AcademicStaff = require('../../models/academicstaff')
     ,Student = require('../../models/student');
 
-
+/*
+Route to display a home page of the academic staff
+*/
 router.get('/academicstaff/home', function(req, res) {
 	username = req.session.user;
 

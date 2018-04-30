@@ -5,7 +5,9 @@ var express = require('express')
     ,router = express.Router()
     ,Module = require('../../models/module');
 
-
+/*
+Route to display all modules taught withing the school
+*/
 router.get('/academicstaff/allmodules', function(req, res) {
 	username = req.session.user;
 	rows = []
@@ -33,6 +35,9 @@ router.get('/academicstaff/allmodules', function(req, res) {
 	});
 });
 
+/*
+Route to display modules assessed by the user
+*/
 router.get('/academicstaff/assessedmodules', function(req, res) {
 	username = req.session.user;
 
@@ -42,6 +47,9 @@ router.get('/academicstaff/assessedmodules', function(req, res) {
 	});
 });
 
+/*
+Route to display modules taught by the user
+*/
 router.get('/academicstaff/taughtmodules', function(req, res) {
 	username = req.session.user;
 
